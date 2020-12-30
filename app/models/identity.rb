@@ -3,7 +3,7 @@ class Identity < ApplicationRecord
 
   def self.find_or_create(auth)
     unless auth_user = find_by_provider_and_uid(auth['provider'], auth['uid'])
-      user = User.create name: auth['info']['name'], email: auth['info']['email']
+      user = User.create password_digest: SecureRandom.hex(16), email: auth['info']['email']
       auth_user = User.create user: user, uid: auth['uid'], provider: auth['provider']
     end
 
